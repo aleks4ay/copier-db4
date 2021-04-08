@@ -1,0 +1,103 @@
+DELETE FROM embodiment;
+DELETE FROM manufacture;
+DELETE FROM techno_item;
+DELETE FROM tmc;
+DELETE FROM invoice;
+DELETE FROM invoice_descr;
+DELETE FROM descriptions;
+DELETE FROM orders;
+DELETE FROM journal;
+DELETE FROM client;
+DELETE FROM worker;
+
+CREATE TABLE journal (
+  iddoc CHARACTER VARYING(9) PRIMARY KEY NOT NULL,
+  docno CHARACTER VARYING(10),
+  datecreate TIMESTAMP WITHOUT TIME ZONE
+);
+
+CREATE TABLE orders (
+  iddoc CHARACTER VARYING(9) PRIMARY KEY NOT NULL,
+  id_client CHARACTER VARYING(9),
+  id_manager CHARACTER VARYING(9),
+  duration INTEGER,
+  t_factory TIMESTAMP WITHOUT TIME ZONE,
+  price NUMERIC(14,3)
+);
+
+CREATE TABLE descriptions (
+  iddoc CHARACTER VARYING(9),
+  position INTEGER,
+  id_tmc CHARACTER VARYING(9),
+  quantity INTEGER,
+  descr_second CHARACTER VARYING(300),
+  size_a INTEGER,
+  size_b INTEGER,
+  size_c INTEGER,
+  embodiment CHARACTER VARYING,
+  price NUMERIC(14,3)
+  --   , FOREIGN KEY (iddoc) REFERENCES orders (iddoc) ON DELETE CASCADE
+);
+
+CREATE TABLE embodiment (
+  id CHARACTER VARYING(9) PRIMARY KEY NOT NULL,
+  description CHARACTER VARYING
+);
+
+CREATE TABLE invoice (
+  iddoc CHARACTER VARYING(9) PRIMARY KEY NOT NULL,
+  id_order CHARACTER VARYING(9),
+  price NUMERIC(14,3)
+);
+
+CREATE TABLE invoice_descr (
+  id_invoice CHARACTER VARYING(9),
+  id_tmc CHARACTER VARYING(9),
+  position INTEGER,
+  quantity INTEGER,
+  payment NUMERIC(14,3)
+);
+
+CREATE TABLE manufacture (
+  iddoc CHARACTER VARYING(9),
+  id_order CHARACTER VARYING(9),
+  position INTEGER,
+  quantity INTEGER,
+  id_tmc CHARACTER VARYING(9),
+  descr_second CHARACTER VARYING,
+  size_a INTEGER,
+  size_b INTEGER,
+  size_c INTEGER,
+  embodiment CHARACTER VARYING(9)
+--   , FOREIGN KEY (id_order) REFERENCES orders (iddoc) ON DELETE CASCADE
+);
+
+CREATE TABLE tmc (
+  id CHARACTER VARYING(9) PRIMARY KEY NOT NULL,
+  id_parent CHARACTER VARYING(9),
+  art CHARACTER VARYING(24),
+  code CHARACTER VARYING(5),
+  descr CHARACTER VARYING(50),
+  is_folder INTEGER,
+  size_a INTEGER,
+  size_b INTEGER,
+  size_c INTEGER,
+  descr_all CHARACTER VARYING(100),
+  type CHARACTER VARYING(9)
+);
+
+CREATE TABLE techno_item (
+  id SERIAL PRIMARY KEY NOT NULL,
+  idtmc CHARACTER VARYING(9) UNIQUE ,
+  store_c INTEGER DEFAULT 0,
+  period TIMESTAMP WITHOUT TIME ZONE
+);
+
+CREATE TABLE worker (
+  id CHARACTER VARYING(9) PRIMARY KEY NOT NULL,
+  name CHARACTER VARYING
+);
+
+
+
+

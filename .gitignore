@@ -1,0 +1,10 @@
+.idea/
+lib/*
+log/*
+out
+target
+*.iml
+ua.aleks4ay.domain.model.log
+*.patch
+
+
